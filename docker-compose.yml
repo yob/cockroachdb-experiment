@@ -1,0 +1,30 @@
+version: "3.6"
+
+services:
+  dev:
+    image: cockroachdb/cockroach:v20.2.3
+    entrypoint: /bin/bash
+
+  node1:
+    image: cockroachdb/cockroach:v20.2.3
+    command: "start --insecure --logtostderr --store=/data --advertise-addr=node1 --listen-addr=0.0.0.0:26257 --http-addr=0.0.0.0:8080 --join=node1,node2,node3"
+    volumes:
+      - ./db/node1:/data
+    ports:
+      - "8080:8080"
+    depends_on:
+      - node2
+      - node3
+
+  node2:
+    image: cockroachdb/cockroach:v20.2.3
+    command: "start --insecure --logtostderr --store=/data --advertise-addr=node2 --listen-addr=0.0.0.0:26257 --join=node1,node2,node3"
+    volumes:
+      - ./db/node2:/data
+
+  node3:
+    image: cockroachdb/cockroach:v20.2.3
+    command: "start --insecure --logtostderr --store=/data --advertise-addr=node3 --listen-addr=0.0.0.0:26257 --join=node1,node2,node3"
+    volumes:
+      - ./db/node3:/data
+
