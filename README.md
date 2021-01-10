@@ -30,6 +30,14 @@ A web dashboard is available at http://localhost:8080
 
 # Misc Useful SQL
 
+## Show query plan
+
+   EXPLAIN SELECT ...
+
+Run the query and show details about how it performed:
+
+   EXPLAIN ANALYZE SELECT ...
+
 ## list all available databases
 
     SHOW DATABASES;
