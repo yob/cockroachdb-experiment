@@ -64,3 +64,13 @@ Try these, and watch the impact on the web dashboard
 
     docker-compose pause <node1/node2/node3>
     docker-compose unpause <node1/node2/node3>
+
+# psql interaction
+
+Start a psql session, connected to a postgres server:
+
+    docker-compose run --rm psql
+
+Start a psql session, connected to the cockroach server:
+
+    docker-compose run --rm psql-cockroach

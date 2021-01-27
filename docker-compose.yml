@@ -28,3 +28,37 @@ services:
     volumes:
       - ./db/node3:/data
 
+  db:
+    image: postgres:12.5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fnord
+    depends_on:
+      - node1
+    volumes:
+      - ./docker/initdb.d:/docker-entrypoint-initdb.d:ro
+
+  psql:
+    image: postgres:12.5
+    depends_on:
+      - db
+    environment:
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: fnord
+      PGDATABASE: "${PGDATABASE-experiment}"
+    entrypoint: []
+    command: ["psql"]
+
+  psql-cockroach:
+    image: postgres:12.5
+    depends_on:
+      - node1
+    environment:
+      PGHOST: node1
+      PGUSER: "root"
+      PGPASSWORD: ""
+      PGPORT: "26257"
+      PGDATABASE: "${PGDATABASE-foo}"
+    entrypoint: []
+    command: ["psql"]
